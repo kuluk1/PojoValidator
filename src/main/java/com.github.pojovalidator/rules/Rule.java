@@ -1,4 +1,4 @@
-package rules;
+package com.github.pojovalidator.rules;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

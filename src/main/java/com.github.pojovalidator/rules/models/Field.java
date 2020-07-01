@@ -1,15 +1,15 @@
-package rules.models;
+package com.github.pojovalidator.rules.models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Field {
     private String name;
-    private ArrayList<RuleField> ruleFieldArrayList;
+    private List<RuleField> ruleFieldArrayList;
 
     public Field() {
     }
 
-    public Field(String name, ArrayList<RuleField> ruleFieldArrayList) {
+    public Field(String name, List<RuleField> ruleFieldArrayList) {
         this.name = name;
         this.ruleFieldArrayList = ruleFieldArrayList;
     }
@@ -22,11 +22,11 @@ public class Field {
         this.name = name;
     }
 
-    public ArrayList<RuleField> getRuleFieldArrayList() {
+    public List<RuleField> getRuleFieldArrayList() {
         return ruleFieldArrayList;
     }
 
-    public void setRuleFieldArrayList(ArrayList<RuleField> ruleFieldArrayList) {
+    public void setRuleFieldArrayList(List<RuleField> ruleFieldArrayList) {
         this.ruleFieldArrayList = ruleFieldArrayList;
     }
 }

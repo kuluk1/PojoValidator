@@ -1,4 +1,4 @@
-package rules;
+package com.github.pojovalidator.rules;
 
 public class RuleResult {
         private String ruleName;

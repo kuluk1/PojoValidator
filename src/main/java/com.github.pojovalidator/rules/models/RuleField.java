@@ -1,4 +1,4 @@
-package rules.models;
+package com.github.pojovalidator.rules.models;
 
 public class RuleField {
     private String ruleName;

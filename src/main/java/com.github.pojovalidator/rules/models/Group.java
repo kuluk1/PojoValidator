@@ -1,15 +1,15 @@
-package rules.models;
+package com.github.pojovalidator.rules.models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Group {
     private String name;
-    private ArrayList<Field> fieldArrayList;
+    private List<Field> fieldArrayList;
 
     public Group() {
     }
 
-    public Group(String name, ArrayList<Field> fieldArrayList) {
+    public Group(String name, List<Field> fieldArrayList) {
         this.name = name;
         this.fieldArrayList = fieldArrayList;
     }
@@ -22,11 +22,11 @@ public class Group {
         this.name = name;
     }
 
-    public ArrayList<Field> getFieldArrayList() {
+    public List<Field> getFieldArrayList() {
         return fieldArrayList;
     }
 
-    public void setFieldArrayList(ArrayList<Field> fieldArrayList) {
+    public void setFieldArrayList(List<Field> fieldArrayList) {
         this.fieldArrayList = fieldArrayList;
     }
 }

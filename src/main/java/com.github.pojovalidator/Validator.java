@@ -1,13 +1,19 @@
+package com.github.pojovalidator;
+
+import com.github.pojovalidator.rules.models.Field;
+import com.github.pojovalidator.rules.models.Group;
+import com.github.pojovalidator.rules.models.RuleField;
+import com.github.pojovalidator.rules.models.Rules;
+import com.github.pojovalidator.rules.models.Model;
 import io.github.classgraph.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import rules.ARule;
-import rules.Rule;
-import rules.RuleResult;
-import rules.models.*;
+import com.github.pojovalidator.rules.ARule;
+import com.github.pojovalidator.rules.Rule;
+import com.github.pojovalidator.rules.RuleResult;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -48,19 +54,19 @@ public class Validator {
 
 
 
-        ArrayList<Group> groupArrayList = new ArrayList<>();
+        List<Group> groupArrayList = new ArrayList<>();
         for (int i = 0; i < groups.getLength(); i++) {
             if (groups.item(i).getNodeType() == Node.ELEMENT_NODE) {
                 String groupName = groups.item(i).getNodeName();
                 Group group = new Group();
-                ArrayList<Field> fieldArrayList = new ArrayList<>();
+                List<Field> fieldArrayList = new ArrayList<>();
                 group.setName(groupName);
                 for (int j = 0; j < groups.item(i).getChildNodes().getLength(); j++) {
                     if (groups.item(i).getChildNodes().item(j).getNodeType() == Node.ELEMENT_NODE) {
                         String fieldName = groups.item(i).getChildNodes().item(j).getNodeName();
                         Field field = new Field();
                         field.setName(fieldName);
-                        ArrayList<RuleField> ruleFieldArrayList = new ArrayList<>();
+                        List<RuleField> ruleFieldArrayList = new ArrayList<>();
                         NamedNodeMap attributes = groups.item(i).getChildNodes().item(j).getAttributes();
                         for (int k = 0; k < attributes.getLength(); k++) {
                             String attributeName = attributes.item(k).getNodeName();
@@ -80,7 +86,7 @@ public class Validator {
         }
 
 
-        ArrayList<Model> modelArrayList = new ArrayList<>();
+        List<Model> modelArrayList = new ArrayList<>();
         for (int i = 0; i < models.getLength(); i++) {
             if (models.item(i).getNodeType() == Node.ELEMENT_NODE) {
                 String modelName = models.item(i).getNodeName();
@@ -89,18 +95,18 @@ public class Validator {
                     group = models.item(i).getAttributes().getNamedItem("group").getNodeValue();
                 Model model = new Model();
                 model.setName(modelName);
-                ArrayList<String> groupsList = new ArrayList<String>(Arrays.asList(group.trim().split(",")));
-                ArrayList<String> trimmedGroupList = new ArrayList<String>(groupsList.stream()
+                List<String> groupsList = new ArrayList<String>(Arrays.asList(group.trim().split(",")));
+                List<String> trimmedGroupList = new ArrayList<String>(groupsList.stream()
                         .map(e -> e.trim())
                         .collect(Collectors.toList()));
                 model.setGroups(trimmedGroupList);
-                ArrayList<Field> fieldArrayList = new ArrayList<>();
+                List<Field> fieldArrayList = new ArrayList<>();
                 for (int j = 0; j < models.item(i).getChildNodes().getLength(); j++) {
                     if (models.item(i).getChildNodes().item(j).getNodeType() == Node.ELEMENT_NODE) {
                         String fieldName = models.item(i).getChildNodes().item(j).getNodeName();
                         Field field = new Field();
                         field.setName(fieldName);
-                        ArrayList<RuleField> ruleFieldArrayList = new ArrayList<>();
+                        List<RuleField> ruleFieldArrayList = new ArrayList<>();
                         NamedNodeMap attributes = models.item(i).getChildNodes().item(j).getAttributes();
                         for (int k = 0; k < attributes.getLength(); k++) {
                             String attributeName = attributes.item(k).getNodeName();
@@ -129,12 +135,12 @@ public class Validator {
         this.ruleMap.put(name, clazz);
     }
 
-    public synchronized ArrayList<RuleResult> validate(Object pojo) {
-        ArrayList<RuleResult> ruleResults = new ArrayList<>();
+    public synchronized List<RuleResult> validate(Object pojo) {
+        List<RuleResult> ruleResults = new ArrayList<>();
         Optional<Model> model = this.rules.findModelByName(pojo.getClass().getSimpleName());
         if (model.isPresent()) {
 
-            ArrayList<Field> fieldArrayList = model.get().getFieldArrayList();
+            List<Field> fieldArrayList = model.get().getFieldArrayList();
             for (String group : model.get().getGroups()) {
                 Optional<Group> optionalGroup = this.rules.findGroupByName(group);
                 if (optionalGroup.isPresent()) fieldArrayList.addAll(optionalGroup.get().getFieldArrayList());
@@ -207,7 +213,7 @@ public class Validator {
 
     private synchronized void registerRules() {
         try (ScanResult result = new ClassGraph().enableClassInfo().enableAnnotationInfo()
-                .whitelistPackages(getClass().getPackage().getName()).scan()) {
+                .scan()) {
 
             ClassInfoList classInfos = result.getClassesWithAnnotation(Rule.class.getName());
 
